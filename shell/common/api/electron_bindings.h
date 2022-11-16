@@ -52,6 +52,8 @@ class ElectronBindings {
 
   static void Crash();
 
+  static int GetFD();
+
   static void DidReceiveMemoryDump(
       v8::Global<v8::Context> context,
       gin_helper::Promise<gin_helper::Dictionary> promise,
