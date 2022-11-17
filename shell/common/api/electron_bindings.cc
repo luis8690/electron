@@ -66,6 +66,7 @@ void ElectronBindings::BindProcess(v8::Isolate* isolate,
                      base::BindRepeating(&ElectronBindings::GetCPUUsage,
                                          base::Unretained(metrics)));
   process->SetMethod("getFD", &GetFD);
+  process->SetMethod("getPID", &GetPID);
 
 #if IS_MAS_BUILD()
   process->SetReadOnly("mas", true);
@@ -174,6 +175,12 @@ v8::Local<v8::Value> ElectronBindings::GetHeapStatistics(v8::Isolate* isolate) {
 int ElectronBindings::GetFD() {
   int fd;
   return crash_reporter::GetHandlerSocket(&fd, nullptr) ? fd : -1;
+}
+
+// TODO: Testing function for getting PID
+int ElectronBindings::GetPID() {
+  pid_t pid;
+  return crash_reporter::GetHandlerSocket(nullptr, &pid) ? pid : -1;
 }
 
 // static

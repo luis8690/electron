@@ -55,9 +55,13 @@ app.whenReady().then(() => {
 
     console.log('About to fork child process...');
     const fd = process.getFD();
-    console.log('FD: ', process.getFD());
+    const pid = process.getPID();
+    console.log('FD: ', process.getFD(), 'PID: ', process.getPID());
 
-    const child = childProcess.fork(crashPath, [`--crashpadfd=${fd}`], { silent: true, stdio: ['inherit', 'inherit', 'inherit', 'ipc', fd] });
+    const child = childProcess.fork(crashPath,
+      [`--crashpadfd=${fd}`, `--crashpad-handler-pid=${pid}`],
+      { silent: true, stdio: ['inherit', 'inherit', 'inherit', 'ipc', fd] }
+    );
 
     child.on('exit', () => {
       console.log('Process exiting...');
